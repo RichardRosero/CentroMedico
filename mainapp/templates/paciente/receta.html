@@ -1,0 +1,76 @@
+{% extends 'layout/layout_master.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4 centrar_div">
+        <div class="col-sm-12 col-xl-6">            
+            <div class="bg-light rounded h-100 p-4">  
+                <h6 class="mb-4">Receta</h6>   
+                               
+                    <form method="POST" action="{% url 'medicina' id_paciente id_consulta %}" >               
+                        <input type="hidden" id="idPaciente" name="idPaciente" value="{{ id_paciente }}" />
+                        <input type="hidden" id="idconsulta" name="idconsulta" value="{{ id_consulta }}" />
+                        <input type="hidden" id="tipoCorreo" name="tipoCorreo" value="Receta" />
+                        <input type="hidden" id="Url" data-url="{% url 'consultar_pacientesCita_Doc' %}" />
+                        {% csrf_token %}
+                        {% if messages %}
+                        {% for message in messages %}
+                                <div class="message">
+                                    {{ message}}
+                                </div>            
+                        {% endfor  %}
+                        {% endif %} 
+                        <p><span><strong>Paciente:</strong>"{{ nombre }}"</span></p>
+                        
+                        {% for field in recetaForm %}        
+                                {% for error in recetaForm.field.errors %}
+                                        <p class="text-danger">{{ error }}
+                                {% endfor %}
+                                <div class="form-floating mb-3">                        
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="p-2 mb-2 bg-danger text-white">{{field.errors}}</div>
+                                {% endif %}
+                                {{ field.label_tag}}
+                                </div>
+                            {% endfor %}                                      
+                                <button type="submit" class="btn btn-primary">Guardar</button>                                            
+                                <a href="javascript:Send()" class="btn btn-primary">Enviar y regresar</a>
+                                
+                    </form>
+            </div>
+        </div>                      
+    </div>
+</div> 
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+               
+                <th scope="col">Medicamento</th>
+                <th scope="col">Dosis / Observacion</th>                               
+            </tr>
+        </thead>
+        <tbody>
+            {% for list_Receta in listReceta %}
+            <tr>                       
+                
+                <td>{{list_Receta.descripcion}}</td>
+                <td>{{list_Receta.dosis_observacion}}</td>                                         
+            </tr>
+            {% endfor  %}
+        </tbody>
+    </table>
+</div>  
+<script src="{% static 'js/laboratorio.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        CargaMedicina();
+        console.log( "form ready!" );
+       
+       
+    });
+    
+</script>
+{% endblock %}

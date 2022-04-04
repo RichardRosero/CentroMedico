@@ -1,0 +1,73 @@
+{% extends 'layout/layout_master.html'%}
+<!-- Grid Start -->
+{% block content %}
+<div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4">Listado usuarios</h6>
+        
+        {% if messages %}
+        {% for message in messages %}
+        <div class="message">
+            {{ message}}
+        </div>
+         
+        {% endfor  %}
+        {% endif %} 
+        <a href="{% url 'registro_usuario' %}" class="btn btn-primary">Nuevo</a>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Número Identificación</th>
+                        <th scope="col">Nombres</th>                                        
+                        <th scope="col">Apellidos</th>                                    
+                        <th scope="col">Domicilio</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Perfil</th>
+                        <th scope="col"></th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for list_Usuarios in listUsuarios %}
+                    <tr>
+                       
+                        <th scope="row">{{list_Usuarios.id_persona}} </th>
+                        <td>{{list_Usuarios.numero_identificacion}}</td>
+                        <td>{{list_Usuarios.nombres}}</td>                        
+                        <td>{{list_Usuarios.apellidos}}</td>                        
+                        <td>{{list_Usuarios.domicilio}}</td>
+                        <td>{{list_Usuarios.correo_contacto}}</td>
+                        <td>{{list_Usuarios.username}}</td>
+                       
+                        {% ifequal list_Usuarios.id_perfil 1  %} 
+                        <td>Doctor</td>
+                        {% endifequal %}
+                        {% ifequal list_Usuarios.id_perfil 2  %} 
+                        <td>Operativo</td>
+                        {% endifequal %}
+                        {% ifequal list_Usuarios.id_perfil 3  %} 
+                        <td>Enfermera</td>
+                        {% endifequal %}
+                        {% ifequal list_Usuarios.id_perfil 4  %} 
+                        <td>Administrdor</td>
+                        {% endifequal %}
+                            
+                        
+                        <td><a href='{% url 'consulta_usuario_id' list_Usuarios.id_persona %}'>Actualizar</a></td>
+                        <td><a href='{% url 'eliminar_usuario' list_Usuarios.id_persona %}'>Eliminar</a></td>
+                    </tr>
+                    {% endfor  %}
+                </tbody>
+            </table>
+        </div>
+   
+
+    </div>
+</div>
+
+<!-- Grid End -->
+
+{% endblock %}

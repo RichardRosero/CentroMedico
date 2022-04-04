@@ -1,0 +1,86 @@
+{% extends 'layout/layout_master.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4 centrar_div">
+        
+        <div class="col-sm-12 col-xl-6">    
+            <a href="{% url 'consulta_historial' id_paciente %}" class="btn btn-primary">Regresar</a>         
+            <div class="bg-light rounded h-100 p-4">     
+                            
+                <h6 class="mb-4">Cita Médica</h6>   
+                               
+                    <form method="POST" action="{% url 'consulta_medica' id_paciente %}" >               
+                        <input type="hidden" id="idPaciente" name="idPaciente" value="{{ id_paciente }}" />
+                        {% csrf_token %}
+                        {% if messages %}
+                        {% for message in messages %}
+                                <div class="message">
+                                    {{ message}}
+                                </div>            
+                        {% endfor  %}
+                        {% endif %} 
+                        <p><span><strong>Paciente:</strong>"{{ nombre }}"</span></p>
+                        
+                        {% for field in consulta_M %}        
+                                {% for error in consulta_M.field.errors %}
+                                        <p class="text-danger">{{ error }}
+                                {% endfor %}
+                                <div class="form-floating mb-3">                        
+                                {{ field }}                               
+                                {{ field.label_tag}}
+                                </div>
+                            {% endfor %}                                                                                                                        
+                    </form>
+            </div>
+        </div>                      
+    </div>
+</div> 
+<div style=" height: 100px;">
+    <h1></h1>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+               
+                <th scope="col">Estudio laboratorio</th>
+                <th scope="col">Notas / Recomendaciones</th>                               
+            </tr>
+        </thead>
+        <tbody>
+            {% for list_Laborario in listLaborario %}
+            <tr>                       
+                
+                <td>{{list_Laborario.descripcion}}</td>
+                <td>{{list_Laborario.notas_recomendaciones}}</td>                                         
+            </tr>
+            {% endfor  %}
+        </tbody>
+    </table>
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+               
+                <th scope="col">Medicamento</th>
+                <th scope="col">Dosis / Observacion</th>                               
+            </tr>
+        </thead>
+        <tbody>
+            {% for list_Receta in listReceta %}
+            <tr>                       
+                
+                <td>{{list_Receta.descripcion}}</td>
+                <td>{{list_Receta.dosis_observacion}}</td>                                         
+            </tr>
+            {% endfor  %}
+        </tbody>
+    </table>
+</div>    
+<script src="{% static 'js/laboratorio.js' %}"></script>
+
+{% endblock %}

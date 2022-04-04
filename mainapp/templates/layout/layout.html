@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>Sitio web Django</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+
+    </head>
+    <body>
+        <!--cabecera -->
+        <header>
+            <div id="logotipo">
+            
+            </div>
+        </header>
+        
+        <div style="height: 75%; ">
+                {% block content %}
+                   
+                {% endblock content %}
+        </div>
+    </body>
+
+
+<footer></footer>
+</html>
